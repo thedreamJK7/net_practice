@@ -1,0 +1,123 @@
+{
+  "level": 9,
+  "title": "Complex Routing",
+  "description": "Configure a complex network topology with multiple routers, networks, and routing paths.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "",
+          "mask": "255.255.255.128"
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": "114.198.19.1"
+          }
+        ]
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "114.198.19.254",
+          "mask": ""
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": ""
+          }
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Client C",
+        "interface": {
+          "name": "C1",
+          "ip": "114.198.19.130",
+          "mask": "/25"
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": "114.198.19.129"
+          }
+        ]
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Router 1",
+        "interfaces": [
+          {
+            "name": "R1-A",
+            "ip": "114.198.19.1",
+            "mask": ""
+          },
+          {
+            "name": "R1-R2",
+            "ip": "114.198.19.253",
+            "mask": "255.255.255.252"
+          }
+        ],
+        "routes": [
+          {
+            "destination": "",
+            "gateway": "114.198.19.254"
+          }
+        ]
+      },
+      {
+        "id": "R2",
+        "name": "Router 2",
+        "interfaces": [
+          {
+            "name": "R2-R1",
+            "ip": "114.198.19.254",
+            "mask": ""
+          },
+          {
+            "name": "R2-C",
+            "ip": "",
+            "mask": "255.255.255.128"
+          }
+        ],
+        "routes": [
+          {
+            "destination": "114.198.19.0/25",
+            "gateway": ""
+          }
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    "Network A: 114.198.19.0/25 (Client A and R1-A)",
+    "Network B: 114.198.19.252/30 (R1-R2 and R2-R1)",
+    "Network C: 114.198.19.128/25 (Client C and R2-C)",
+    "Configure all missing values to enable full connectivity",
+    "All clients must be able to reach each other through proper routing"
+  ],
+  "editable_fields": [
+    "A.interface.ip",
+    "B.interface.mask",
+    "B.routes[0].gateway",
+    "R1.interfaces[0].mask",
+    "R1.routes[0].destination",
+    "R2.interfaces[0].mask",
+    "R2.interfaces[1].ip",
+    "R2.routes[0].gateway"
+  ],
+  "hints": [
+    "114.198.19.0/25 covers .0 to .127",
+    "114.198.19.128/25 covers .128 to .255",
+    "114.198.19.252/30 is a small network for router-to-router connection",
+    "Each router needs routes to networks not directly connected to it"
+  ]
+}

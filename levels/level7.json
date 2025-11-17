@@ -1,0 +1,83 @@
+{
+  "level": 7,
+  "title": "Overlapping Networks",
+  "description": "Resolve network conflicts by properly subnetting to avoid overlapping address ranges.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "93.198.14.1",
+          "mask": ""
+        },
+        "gateway": "93.198.14.254"
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "93.198.14.253",
+          "mask": "/30"
+        },
+        "gateway": ""
+      },
+      {
+        "id": "C",
+        "name": "Client C",
+        "interface": {
+          "name": "C1",
+          "ip": "",
+          "mask": "255.255.255.128"
+        },
+        "gateway": "93.198.14.129"
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Router 1",
+        "interfaces": [
+          {
+            "name": "R1-A",
+            "ip": "93.198.14.254",
+            "mask": "255.255.255.252"
+          },
+          {
+            "name": "R1-B",
+            "ip": "",
+            "mask": "/30"
+          },
+          {
+            "name": "R1-C",
+            "ip": "93.198.14.129",
+            "mask": ""
+          }
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    "Create three separate non-overlapping networks",
+    "Network A: /30 subnet containing .1 and .254",
+    "Network B: /30 subnet containing .253",
+    "Network C: /25 subnet containing .129",
+    "Ensure all networks are properly configured without overlap"
+  ],
+  "editable_fields": [
+    "A.interface.mask",
+    "B.gateway",
+    "C.interface.ip",
+    "R1.interfaces[1].ip",
+    "R1.interfaces[2].mask"
+  ],
+  "hints": [
+    "/30 networks can start at addresses divisible by 4 (0, 4, 8, 12, etc.)",
+    "93.198.14.252/30 covers .252-.255",
+    "93.198.14.0/25 covers .0-.127",
+    "93.198.14.128/25 covers .128-.255",
+    "Make sure your /30 networks don't overlap with the /25 network"
+  ]
+}

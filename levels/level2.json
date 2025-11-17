@@ -1,0 +1,57 @@
+{
+  "level": 2,
+  "title": "Simple Switch Network",
+  "description": "Connect three computers through a switch. All devices must be on the same network.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "192.168.1.221",
+          "mask": "255.255.255.0"
+        }
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "",
+          "mask": "255.255.255.0"
+        }
+      },
+      {
+        "id": "C",
+        "name": "Client C",
+        "interface": {
+          "name": "C1",
+          "ip": "192.168.1.254",
+          "mask": ""
+        }
+      }
+    ],
+    "switches": [
+      {
+        "id": "S1",
+        "name": "Switch 1",
+        "connections": ["A", "B", "C"]
+      }
+    ]
+  },
+  "requirements": [
+    "All three hosts must be on the same network (192.168.1.0/24)",
+    "Each host must have a unique IP address",
+    "All hosts should be able to communicate with each other"
+  ],
+  "editable_fields": [
+    "B.interface.ip",
+    "C.interface.mask"
+  ],
+  "hints": [
+    "With subnet mask 255.255.255.0, all IPs must be 192.168.1.X",
+    "X must be between 1 and 254",
+    "Avoid using .221 and .254 as they're already assigned"
+  ]
+}

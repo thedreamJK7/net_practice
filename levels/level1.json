@@ -1,0 +1,41 @@
+{
+  "level": 1,
+  "title": "Basic Connection",
+  "description": "Connect two computers on the same network. Both devices must be able to communicate with each other.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "104.95.23.12",
+          "mask": ""
+        }
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "",
+          "mask": "255.255.255.0"
+        }
+      }
+    ]
+  },
+  "requirements": [
+    "Both hosts must be on the same network",
+    "Host B IP must be in the same subnet as Host A",
+    "Hosts should be able to communicate directly"
+  ],
+  "editable_fields": [
+    "B.interface.ip",
+    "A.interface.mask"
+  ],
+  "hints": [
+    "The subnet mask defines the network portion of an IP address",
+    "For /24 networks (255.255.255.0), the first 3 octets must match",
+    "Host A has IP 104.95.23.12, so Host B must have IP 104.95.23.X where X is between 1-254 and not 12"
+  ]
+}

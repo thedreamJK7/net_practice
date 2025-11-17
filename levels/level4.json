@@ -1,0 +1,65 @@
+{
+  "level": 4,
+  "title": "Router Connection",
+  "description": "Connect two separate networks using a router. Configure routing between networks.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "85.12.227.165",
+          "mask": "/24"
+        },
+        "gateway": ""
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "",
+          "mask": "255.255.255.0"
+        },
+        "gateway": "122.165.199.254"
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Router 1",
+        "interfaces": [
+          {
+            "name": "R1-A",
+            "ip": "",
+            "mask": "255.255.255.0",
+            "network": "Network A"
+          },
+          {
+            "name": "R1-B",
+            "ip": "122.165.199.254",
+            "mask": "/24",
+            "network": "Network B"
+          }
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    "Client A must be on the same network as Router interface R1-A",
+    "Client B must be on the same network as Router interface R1-B",
+    "Configure proper default gateways for communication between networks"
+  ],
+  "editable_fields": [
+    "A.gateway",
+    "B.interface.ip",
+    "R1.interfaces[0].ip"
+  ],
+  "hints": [
+    "The default gateway for a host is the router's IP on that network",
+    "Client A is on 85.12.227.0/24 network",
+    "Client B is on 122.165.199.0/24 network",
+    "The router interface must be on the same network as the connected clients"
+  ]
+}

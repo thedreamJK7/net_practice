@@ -1,0 +1,79 @@
+{
+  "level": 6,
+  "title": "Internet Gateway",
+  "description": "Configure routing to the Internet through a gateway. Understanding default routes.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "40.178.145.227",
+          "mask": "/26"
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": ""
+          }
+        ]
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Router 1",
+        "interfaces": [
+          {
+            "name": "R1-A",
+            "ip": "",
+            "mask": "255.255.255.192"
+          },
+          {
+            "name": "R1-Internet",
+            "ip": "91.198.174.1",
+            "mask": "/30"
+          }
+        ],
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": "91.198.174.2"
+          }
+        ]
+      },
+      {
+        "id": "R2",
+        "name": "Internet Gateway",
+        "interfaces": [
+          {
+            "name": "R2-R1",
+            "ip": "91.198.174.2",
+            "mask": "/30"
+          },
+          {
+            "name": "R2-Internet",
+            "ip": "0.0.0.0",
+            "mask": "/0"
+          }
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    "Client A must be on the same /26 network as R1-A",
+    "Configure Client A's default gateway to reach the Internet",
+    "R1 and R2 must be connected via a /30 network"
+  ],
+  "editable_fields": [
+    "A.routes[0].gateway",
+    "R1.interfaces[0].ip"
+  ],
+  "hints": [
+    "The default route destination is 0.0.0.0/0 or 'default'",
+    "A /26 subnet has 62 usable IP addresses",
+    "40.178.145.227 with /26 means the network is 40.178.145.192/26",
+    "Router interface on the network should be the first or last usable IP"
+  ]
+}

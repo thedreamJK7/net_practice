@@ -1,0 +1,61 @@
+{
+  "level": 3,
+  "title": "Subnetting Introduction",
+  "description": "Configure subnet masks to create separate networks. Understanding CIDR notation.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "104.198.241.125",
+          "mask": ""
+        }
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "104.198.241.222",
+          "mask": "255.255.255.128"
+        }
+      },
+      {
+        "id": "C",
+        "name": "Client C",
+        "interface": {
+          "name": "C1",
+          "ip": "",
+          "mask": "/30"
+        }
+      },
+      {
+        "id": "D",
+        "name": "Client D",
+        "interface": {
+          "name": "D1",
+          "ip": "104.198.241.253",
+          "mask": ""
+        }
+      }
+    ]
+  },
+  "requirements": [
+    "Hosts A and B must be on the same network",
+    "Hosts C and D must be on a separate network with only 2 usable IPs",
+    "Use appropriate subnet masks for each network"
+  ],
+  "editable_fields": [
+    "A.interface.mask",
+    "C.interface.ip",
+    "D.interface.mask"
+  ],
+  "hints": [
+    "/30 gives you 4 IPs total (2 usable, 1 network, 1 broadcast)",
+    "A subnet mask of 255.255.255.128 (/25) divides the network in half",
+    "Check if 104.198.241.125 and 104.198.241.222 are in the same /25 subnet",
+    "For the /30 network with D at .253, C could be .252 or .254"
+  ]
+}

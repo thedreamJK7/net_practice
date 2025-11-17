@@ -1,0 +1,149 @@
+{
+  "level": 10,
+  "title": "Enterprise Network",
+  "description": "Configure a complete enterprise network with multiple subnets, routers, and Internet connectivity. This is the final challenge!",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Server A",
+        "interface": {
+          "name": "A1",
+          "ip": "172.16.0.10",
+          "mask": ""
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": ""
+          }
+        ]
+      },
+      {
+        "id": "B",
+        "name": "Server B",
+        "interface": {
+          "name": "B1",
+          "ip": "",
+          "mask": "255.255.255.240"
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": "172.16.0.17"
+          }
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Workstation C",
+        "interface": {
+          "name": "C1",
+          "ip": "172.16.0.34",
+          "mask": "/28"
+        },
+        "routes": [
+          {
+            "destination": "",
+            "gateway": "172.16.0.33"
+          }
+        ]
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Core Router",
+        "interfaces": [
+          {
+            "name": "R1-ServerNet",
+            "ip": "172.16.0.1",
+            "mask": "/28"
+          },
+          {
+            "name": "R1-DMZ",
+            "ip": "",
+            "mask": "255.255.255.240"
+          },
+          {
+            "name": "R1-R2",
+            "ip": "172.16.0.49",
+            "mask": ""
+          }
+        ],
+        "routes": [
+          {
+            "destination": "172.16.0.32/28",
+            "gateway": ""
+          },
+          {
+            "destination": "",
+            "gateway": "172.16.0.50"
+          }
+        ]
+      },
+      {
+        "id": "R2",
+        "name": "Edge Router",
+        "interfaces": [
+          {
+            "name": "R2-R1",
+            "ip": "172.16.0.50",
+            "mask": "/30"
+          },
+          {
+            "name": "R2-Workstations",
+            "ip": "172.16.0.33",
+            "mask": ""
+          },
+          {
+            "name": "R2-Internet",
+            "ip": "203.0.113.1",
+            "mask": "/30"
+          }
+        ],
+        "routes": [
+          {
+            "destination": "",
+            "gateway": "172.16.0.49"
+          },
+          {
+            "destination": "default",
+            "gateway": ""
+          }
+        ]
+      }
+    ],
+    "internet": {
+      "gateway": "203.0.113.2"
+    }
+  },
+  "requirements": [
+    "ServerNet: 172.16.0.0/28 (Server A, R1)",
+    "DMZ: 172.16.0.16/28 (Server B, R1)",
+    "WorkstationNet: 172.16.0.32/28 (Workstation C, R2)",
+    "Router Link: 172.16.0.48/30 (R1, R2)",
+    "Internet Link: 203.0.113.0/30 (R2, Internet)",
+    "All hosts must be able to communicate with each other and reach Internet"
+  ],
+  "editable_fields": [
+    "A.interface.mask",
+    "A.routes[0].gateway",
+    "B.interface.ip",
+    "C.routes[0].destination",
+    "R1.interfaces[1].ip",
+    "R1.interfaces[2].mask",
+    "R1.routes[0].gateway",
+    "R1.routes[1].destination",
+    "R2.interfaces[1].mask",
+    "R2.routes[0].destination",
+    "R2.routes[1].gateway"
+  ],
+  "hints": [
+    "Plan your subnetting: /28 gives 14 usable IPs per network",
+    "/30 gives only 2 usable IPs (perfect for point-to-point links)",
+    "Each network should be non-overlapping",
+    "Routers need routes to all non-directly-connected networks",
+    "Default routes point to the next hop towards the Internet"
+  ]
+}
