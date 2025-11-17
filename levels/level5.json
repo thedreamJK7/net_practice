@@ -1,0 +1,81 @@
+{
+  "level": 5,
+  "title": "Multiple Subnets",
+  "description": "Configure multiple subnets with different subnet masks on a single router.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "10.10.10.2",
+          "mask": ""
+        },
+        "gateway": "10.10.10.1"
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "10.10.10.130",
+          "mask": "/25"
+        },
+        "gateway": ""
+      },
+      {
+        "id": "C",
+        "name": "Client C",
+        "interface": {
+          "name": "C1",
+          "ip": "",
+          "mask": "255.255.255.252"
+        },
+        "gateway": "10.10.10.221"
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Router 1",
+        "interfaces": [
+          {
+            "name": "R1-A",
+            "ip": "10.10.10.1",
+            "mask": "255.255.255.128"
+          },
+          {
+            "name": "R1-B",
+            "ip": "",
+            "mask": "/25"
+          },
+          {
+            "name": "R1-C",
+            "ip": "10.10.10.221",
+            "mask": ""
+          }
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    "Network A: 10.10.10.0/25 (Client A and R1-A)",
+    "Network B: 10.10.10.128/25 (Client B and R1-B)",
+    "Network C: /30 subnet (Client C and R1-C)",
+    "Configure all missing IP addresses and subnet masks correctly"
+  ],
+  "editable_fields": [
+    "A.interface.mask",
+    "B.gateway",
+    "C.interface.ip",
+    "R1.interfaces[1].ip",
+    "R1.interfaces[2].mask"
+  ],
+  "hints": [
+    "10.10.10.0/25 covers 10.10.10.0 to 10.10.10.127",
+    "10.10.10.128/25 covers 10.10.10.128 to 10.10.10.255",
+    "A /30 network has only 4 IPs (2 usable)",
+    "Find a /30 subnet that includes .221"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "level": 8,
+  "title": "Multi-Router Network",
+  "description": "Configure a network with multiple routers and routing tables to enable communication across different networks.",
+  "topology": {
+    "hosts": [
+      {
+        "id": "A",
+        "name": "Client A",
+        "interface": {
+          "name": "A1",
+          "ip": "10.20.0.2",
+          "mask": "/25"
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": ""
+          }
+        ]
+      },
+      {
+        "id": "B",
+        "name": "Client B",
+        "interface": {
+          "name": "B1",
+          "ip": "10.20.128.2",
+          "mask": "/25"
+        },
+        "routes": [
+          {
+            "destination": "default",
+            "gateway": "10.20.128.1"
+          }
+        ]
+      }
+    ],
+    "routers": [
+      {
+        "id": "R1",
+        "name": "Router 1",
+        "interfaces": [
+          {
+            "name": "R1-A",
+            "ip": "10.20.0.1",
+            "mask": "/25"
+          },
+          {
+            "name": "R1-R2",
+            "ip": "",
+            "mask": "255.255.255.252"
+          }
+        ],
+        "routes": [
+          {
+            "destination": "10.20.128.0/25",
+            "gateway": ""
+          }
+        ]
+      },
+      {
+        "id": "R2",
+        "name": "Router 2",
+        "interfaces": [
+          {
+            "name": "R2-R1",
+            "ip": "10.20.0.130",
+            "mask": ""
+          },
+          {
+            "name": "R2-B",
+            "ip": "10.20.128.1",
+            "mask": "/25"
+          }
+        ],
+        "routes": [
+          {
+            "destination": "",
+            "gateway": "10.20.0.129"
+          }
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    "Client A must reach Client B through R1 and R2",
+    "Configure proper routing tables on both routers",
+    "Use a /30 network to connect the two routers",
+    "Ensure all default gateways are correctly configured"
+  ],
+  "editable_fields": [
+    "A.routes[0].gateway",
+    "R1.interfaces[1].ip",
+    "R1.routes[0].gateway",
+    "R2.interfaces[0].mask",
+    "R2.routes[0].destination"
+  ],
+  "hints": [
+    "Client A's default gateway should be R1's interface on its network",
+    "R1 needs a route to reach Client B's network (10.20.128.0/25) via R2",
+    "R2 needs a route to reach Client A's network (10.20.0.0/25) via R1",
+    "The router-to-router connection can use 10.20.0.128/30"
+  ]
+}
